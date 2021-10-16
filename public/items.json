@@ -1,0 +1,82 @@
+[
+  {
+    "band": "Glass Animals",
+    "album": "Dreamland",
+    "price": "15",
+    "img": "/img/glass-animals.webp",
+    "id": "134697",
+    "release": "2020"
+  },
+  {
+    "band": "Queen",
+    "album": "Greatest Hits",
+    "price": "27",
+    "img": "/img/queen.jpg",
+    "id": "134654",
+    "release": "1981"
+  },
+  {
+    "band": "Angels & Airwaves",
+    "album": "Lifeforms",
+    "price": "10",
+    "img": "/img/angels-airwaves.jpg",
+    "id": "134673",
+    "release": "2021"
+  },
+  {
+    "band": "Metallica",
+    "album": "Metallica",
+    "price": "24",
+    "img": "/img/metallica.jpg",
+    "id": "134671",
+    "release": "1991"
+  },
+  {
+    "band": "Rumours",
+    "album": "Fleetwood Mac",
+    "price": "20",
+    "img": "/img/rumours.jpg",
+    "id": "134670",
+    "release": "1977"
+  },
+  {
+    "band": "Machine Gun Kelly",
+    "album": "Tickets To My Downfall",
+    "price": "21",
+    "img": "/img/machinegun.jpg",
+    "id": "134663",
+    "release": "2020"
+  },
+  {
+    "band": "Nirvana",
+    "album": "Nevermind",
+    "price": "23",
+    "img": "/img/nirvana.jpg",
+    "id": "134679",
+    "release": "1991"
+  },
+  {
+    "band": "Elton John",
+    "album": "Diamonds",
+    "price": "30",
+    "img": "/img/elton-john.webp",
+    "id": "134680",
+    "release": "2017"
+  },
+  {
+    "band": "Creedence Clearwater Revival",
+    "album": "Chronicle The 20 Greatest Hits",
+    "price": "18",
+    "img": "/img/creedence.jpg",
+    "id": "134674",
+    "release": "1976"
+  },
+  {
+    "band": "AC/DC",
+    "album": "Back In Black",
+    "price": "28",
+    "img": "/img/ac-dc.jpg",
+    "id": "134677",
+    "release": "1980"
+  }
+]

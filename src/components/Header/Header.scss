@@ -1,0 +1,50 @@
+.header {
+  padding: 50px 20px 30px;
+  background-color: #000000;
+  &__container {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__buttons {
+    width: 40% !important;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 36px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #FFFFFF;
+    position: relative;
+    span {
+      position: absolute;
+      top: -16px;
+      right: -14px;
+      font-weight: 400;
+      font-size: 18px;
+    }
+  }
+  &__title {
+    span {
+      font-weight: 700;
+      font-size: 2.5rem;
+    }
+  }
+  &__cart {
+    color: #FFFFFF;
+    font-size: 26px;
+  }
+  &__btn {
+    border: 1px solid #FFFFFF !important;
+  }
+
+  &__btn:hover{
+    color: #000000;
+    background-color: #FFFFFF;
+  }
+}
+
+.selected {
+  color: #000000 !important;
+  background-color: #FFFFFF !important;
+}
