@@ -7,14 +7,13 @@ const ItemsList = (props) => {
 
   const {
     toggleModal,
-    onToggleIcon,
-    selectedItems,
+    onToggleFavorites,
     title,
     onDeleted,
-    toggleModalSecond
+    toggleModalSecond,
   } = props;
   const albums = props.albums;
-  const hasProperty = props.remove ? true : false
+  const hasProperty = props.remove ? true : false;
   const albumItem = albums.map(albumsList => {
     const {id, ...albumProps} = albumsList;
 
@@ -25,8 +24,7 @@ const ItemsList = (props) => {
           {...albumProps}
           id={id}
           remove={hasProperty}
-          selectedItems={selectedItems}
-          onToggleIcon={() => onToggleIcon(id)}
+          onToggleFavorites={() => onToggleFavorites(id)}
           toggleModal={() => toggleModal(id)}
           onDeleted={() => onDeleted(id)}
           toggleModalSecond = {() => toggleModalSecond(id)}
@@ -47,8 +45,8 @@ const ItemsList = (props) => {
             <td>Price</td>
             <td>Release year</td>
             <td>Like</td>
-            <td>Buy</td>
-            {props.remove ? <td>Remove</td> : null}
+            {props.remove ? null : <td>Buy</td>}
+            {props.remove && <td>Remove</td>}
           </tr>
           </thead>
             <tbody>

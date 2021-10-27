@@ -1,125 +1,97 @@
 import React, {useEffect, useState} from "react";
 import Modal from "../Modal";
 import Header from "../Header";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
-import {getAlbums} from "../../api/requestAlbums";
 import {Route, Switch} from "react-router-dom";
-import ShoppingCart from "../../pages/ShoppingCart";
+import Cart from "../../pages/Cart";
 import NotFound from "../../pages/NotFound";
 import Homepage from "../../pages/Homepage";
 import Favorites from "../../pages/Favorites";
-
-const dataFromLC = () => {
-  let data = localStorage.getItem('favorite');
-  if (data === null) {
-    return []
-  }
-  return data.split(',')
-};
+import {useDispatch, useSelector} from "react-redux";
+import {removeFromCart, setToCart} from "../../store/cart/actions";
+import {closeFirstModal, closeSecondModal, openFirstModal, openSecondModal} from "../../store/modal/actions";
+import {fetchAlbums} from "../../store/albums/actions";
 
 const App = () => {
 
-  const [albums, setAlbums] = useState([]);
-  const [isOpenFirst, setIsOpenFirst] = useState(false);
-  const [isOpenSecond, setIsOpenSecond] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedItems, setSelectedItems] = useState(dataFromLC());
   const [deleteBtId, setDeleteById] = useState(null);
+  const [cartId, setCartId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.cartList);
+  const isOpenFirstModal = useSelector(state => state.modalFirst);
+  const isOpenSecondModal = useSelector(state => state.modalSecond);
 
   useEffect(() => {
-    fetchFilms()
-  }, []);
-
-  const fetchFilms = () => {
     setTimeout(() => {
-      getAlbums()
-        .then(albums => {
-          setAlbums(albums)
-        })
-        .finally(() => {
-          setIsLoading(false)
-        })
-    }, 1500)
+      dispatch(fetchAlbums());
+      setIsLoading(false);
+    }, 1000)
+  }, [dispatch]);
+
+  const onToggleFavorites = (id) => {
+    return id
   };
 
-  const onToggleIcon = (id) => {
-    let indexArray = selectedItems;
-    const uniqueIndex = indexArray.findIndex((elem) => elem === id);
-
-    if (uniqueIndex <= -1) {
-      setSelectedItems([
-        ...indexArray,
-        id
-      ])
-    } else if (uniqueIndex >= -1) {
-      setSelectedItems([
-        ...indexArray.slice(0, uniqueIndex),
-        ...indexArray.slice(uniqueIndex + 1)
-      ])
-    }
+  const openModalFirst = (id) => {
+    setCartId(id);
+    dispatch(openFirstModal(!isOpenFirstModal))
   };
 
-  const toggleModalFirst = () => {
-    setIsOpenFirst(!isOpenFirst)
+  const addToCart = () => {
+    dispatch(closeFirstModal(!isOpenFirstModal));
+    cart.includes(cartId) || dispatch(setToCart(cartId))
   };
 
-  const toggleModalSecond = (id) => {
-    setIsOpenSecond(!isOpenSecond);
+  const openModalSecond = (id) => {
+    dispatch(openSecondModal(!isOpenSecondModal));
     setDeleteById(id);
   };
 
+  const removeFromShoppingCart = () => {
+    dispatch(removeFromCart(deleteBtId));
+    dispatch(closeSecondModal(!isOpenSecondModal));
+  };
+
   const deleteItem = (id) => {
-    const idx = albums.findIndex((album) => album.id === id);
-
-    const newAlbums = [
-      ...albums.slice(0, idx),
-      ...albums.slice(idx + 1)
-    ];
-    setAlbums(newAlbums)
+    return id
   };
 
-  const handleSecondModal = () => {
-    toggleModalSecond();
-    deleteItem(deleteBtId)
+  const handleClickByWindow = () => {
+    isOpenFirstModal && dispatch(closeFirstModal(false));
+    isOpenSecondModal && dispatch(closeSecondModal(false));
   };
 
-  localStorage.setItem('favorite', selectedItems);
   return (
-    <>
+    <div onClick={handleClickByWindow}>
       <Header/>
       <Switch>
         <Route exact
                path='/'>
           <Homepage
-            albums={albums}
             isLoading={isLoading}
-            selectedItems={selectedItems}
-            onToggleIcon={onToggleIcon}
-            toggleModal={toggleModalFirst}
+            onToggleFavorites={onToggleFavorites}
+            toggleModal={openModalFirst}
             onDeleted={deleteItem}
           />
         </Route>
         <Route exact
                path='/shopping-cart'>
-          <ShoppingCart
-            albums={albums}
+          <Cart
             isLoading={isLoading}
-            selectedItems={selectedItems}
-            onToggleIcon={onToggleIcon}
-            toggleModal={toggleModalFirst}
-            toggleModalSecond={toggleModalSecond}
+            onToggleFavorites={onToggleFavorites}
+            toggleModal={openModalFirst}
+            toggleModalSecond={openModalSecond}
             onDeleted={deleteItem}/>
         </Route>
         <Route exact
                path='/favorites'>
           <Favorites
-            albums={albums}
             isLoading={isLoading}
-            selectedItems={selectedItems}
-            onToggleIcon={onToggleIcon}
-            toggleModal={toggleModalFirst}
+            onToggleFavorites={onToggleFavorites}
+            toggleModal={openModalFirst}
             onDeleted={deleteItem}/>
         </Route>
         <Route path='*'>
@@ -127,19 +99,19 @@ const App = () => {
         </Route>
       </Switch>
       <Modal
-        isOpen={isOpenFirst}
-        toggleModalProp={toggleModalFirst}
+        isOpen={isOpenFirstModal}
+        toggleModalProp={openModalFirst}
         actions={<>
           <button className='btn btn-secondary'
-                  onClick={toggleModalFirst}>Yes
+                  onClick={addToCart}>Yes
           </button>
           <button className='btn btn-secondary'
-                  onClick={toggleModalFirst}>Buy Later
+                  onClick={() => dispatch(closeFirstModal(!isOpenFirstModal))}>Buy Later
           </button>
         </>}>
 
         <h2 className='title'>Do you want to buy this album?
-          <span onClick={toggleModalFirst}>
+          <span onClick={() => dispatch(closeFirstModal(!isOpenFirstModal))}>
             <i className="fas fa-times"/>
           </span>
         </h2>
@@ -147,25 +119,25 @@ const App = () => {
       </Modal>
 
       <Modal
-        isOpen={isOpenSecond}
-        toggleModalProp={toggleModalSecond}
+        isOpen={isOpenSecondModal}
+        toggleModalProp={openModalSecond}
         actions={<>
           <button className='btn btn-secondary'
-                  onClick={handleSecondModal}>Yes
+                  onClick={removeFromShoppingCart}>Yes
           </button>
           <button className='btn btn-secondary'
-                  onClick={toggleModalSecond}>No
+                  onClick={() => dispatch(closeSecondModal(!isOpenSecondModal))}>No
           </button>
         </>}>
 
         <h2 className='title'>Delete?
-          <span onClick={toggleModalSecond}>
+          <span onClick={() => dispatch(closeSecondModal(!isOpenSecondModal))}>
             <i className="fas fa-times"/>
           </span>
         </h2>
         <div className='text'>Do you want remove his album from your order list?</div>
       </Modal>
-    </>
+    </div>
   )
 };
 

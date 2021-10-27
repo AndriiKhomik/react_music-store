@@ -1,8 +1,13 @@
 import React from "react";
 
 import './Item.scss';
+import {useDispatch, useSelector} from "react-redux";
+import {removeFavorites, setFavorites} from "../../store/favorites/actions";
 
 const Item = (props) => {
+
+  const dispatch = useDispatch();
+  const selected = useSelector(state => state.favoritesList);
 
   const {
     album,
@@ -11,9 +16,7 @@ const Item = (props) => {
     release,
     img,
     id,
-    selectedItems,
     toggleModal,
-    onToggleIcon,
     onDeleted,
     toggleModalSecond
   } = props;
@@ -25,12 +28,16 @@ const Item = (props) => {
 
   const handleIcon = (e) => {
     e.preventDefault();
-    onToggleIcon()
+    if (!selected.includes(id)) {
+      dispatch(setFavorites(id))
+    } else {
+      dispatch(removeFavorites(id))
+    }
   };
 
   const handleDelete = e => {
     e.preventDefault();
-    toggleModalSecond()
+    toggleModalSecond();
   };
 
   return (
@@ -41,17 +48,19 @@ const Item = (props) => {
       <td>{album}</td>
       <td className='price'>{price} <span>$</span></td>
       <td>{release}</td>
-      <td><a href='#'
+      <td><a href='/'
              onClick={handleIcon}>
-        {selectedItems.includes(id) ? <i className="fas fa-star" onClick={onDeleted}></i> : <i className="far fa-star"></i>}
+        {selected.includes(id) ? <i className="fas fa-star"
+                                    onClick={onDeleted}></i> : <i className="far fa-star"></i>}
       </a></td>
-      <td><a href='#'
-             onClick={handleModal}>
+      {props.remove ? null : <td><a href='/'
+                                    onClick={handleModal}>
         <i className="fas fa-shopping-cart"></i>
-      </a></td>
-      {props.remove ? <td><a href="" onClick={handleDelete}><i className="fas fa-trash-alt" ></i></a></td> : null}
+      </a></td>}
+      {props.remove ? <td><a href="/"
+                             onClick={handleDelete}><i className="fas fa-trash-alt"></i></a></td> : null}
     </>
   )
-}
+};
 
 export default Item;

@@ -1,14 +1,15 @@
 import React from "react";
 import ItemsList from "../../components/ItemsList";
+import {useSelector} from "react-redux";
 import {Loader} from "../../components/Loader";
 
 const Homepage = (props) => {
 
+  const albumsList = useSelector(state => state.albumsList);
+
   const {
-    albums,
     isLoading,
-    selectedItems,
-    onToggleIcon,
+    onToggleFavorites,
     toggleModal,
     onDeleted,
   } = props;
@@ -17,14 +18,12 @@ const Homepage = (props) => {
     <>
       <ItemsList
         title='Top rated'
-        albums={albums}
-        isLoading={isLoading}
-        selectedItems={selectedItems}
-        onToggleIcon={onToggleIcon}
+        albums={albumsList}
+        onToggleFavorites={onToggleFavorites}
         toggleModal={toggleModal}
         onDeleted={onDeleted}
       />
-      {isLoading ? <Loader/> : null}
+      {isLoading && <Loader />}
     </>
   )
 };

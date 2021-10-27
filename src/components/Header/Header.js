@@ -2,8 +2,11 @@ import React from "react";
 
 import './Header.scss';
 import {Link, NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const Header = () => {
+
+  const count = useSelector(state => state);
 
   return (
     <div className='header'>
@@ -13,7 +16,7 @@ const Header = () => {
           You can buy top albums regarding <span>billboard</span> chart
         </h2>
         <Link to='/shopping-cart'>
-          <i className="fas fa-shopping-cart header__cart"></i><span>0</span>
+          <i className="fas fa-shopping-cart header__cart"></i><span>{count.cartList.length}</span>
         </Link>
       </div>
       <div className='container header__buttons'>

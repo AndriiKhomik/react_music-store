@@ -24,6 +24,9 @@
       font-size: 18px;
     }
   }
+  a:hover {
+    color: #FFFFFF;
+  }
   &__title {
     span {
       font-weight: 700;
@@ -39,7 +42,7 @@
   }
 
   &__btn:hover{
-    color: #000000;
+    color: #000000 !important;
     background-color: #FFFFFF;
   }
 }
