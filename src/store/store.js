@@ -5,7 +5,7 @@ import thunk from "redux-thunk";
 import {cartReducer} from "./cart/reducer";
 import {modalFirstReducer, modalSecondReducer} from "./modal/reducer";
 import {ADD_FAVORITES, REMOVE_FAVORITES} from "./favorites/types";
-import {ADD_TO_CART, REMOVE_FROM_CART} from "./cart/types";
+import {ADD_TO_CART, REMOVE_ALL_FROM_CART, REMOVE_FROM_CART} from "./cart/types";
 
 const rootReducer = combineReducers({
   albumsList: albumsReducer,
@@ -26,7 +26,7 @@ const favoritesSyncMiddleware = ({dispatch, getState}) => next => action => {
 
 const cartSyncMiddleware = ({dispatch, getState}) => next => action => {
   const result = next(action);
-  if ([ADD_TO_CART, REMOVE_FROM_CART].includes(action.type)) {
+  if ([ADD_TO_CART, REMOVE_FROM_CART, REMOVE_ALL_FROM_CART].includes(action.type)) {
     const {cartList} = store.getState();
     localStorage.setItem('cartList', JSON.stringify(cartList))
   }

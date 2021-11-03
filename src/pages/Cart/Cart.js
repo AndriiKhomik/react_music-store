@@ -2,6 +2,7 @@ import React from "react";
 import ItemsList from "../../components/ItemsList";
 import {useSelector} from "react-redux";
 import {Loader} from "../../components/Loader";
+import Order from "../../components/Order";
 
 const Cart = (props) => {
 
@@ -19,6 +20,7 @@ const Cart = (props) => {
 
   return (
     <>
+      <Order />
       <ItemsList
         title='You order list'
         albums={cartList}

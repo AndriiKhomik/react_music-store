@@ -1,0 +1,50 @@
+.order-title {
+  padding: 20px;
+}
+
+.modal-title {
+  padding: 24px;
+}
+
+.modal-list {
+  list-style-type: none;
+  padding: 20px;
+
+  li {
+    margin-bottom: 8px;
+  }
+}
+
+.MuiBox-root {
+  position: relative;
+}
+
+.error-message {
+  position: absolute;
+  top: 30px;
+  left: 14px;
+}
+
+.error-message__last-name {
+  position: absolute;
+  top: 30px;
+  right: 110px;
+}
+
+.error-message__age {
+  position: absolute;
+  top: 86px;
+  left: 14px;
+}
+
+.error-message__address {
+  position: absolute;
+  top: 86px;
+  right: 122px;
+}
+
+.error-message__phone {
+  position: absolute;
+  left: 14px;
+  bottom: -24px;
+}
